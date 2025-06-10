@@ -29,12 +29,12 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(
   session({
-    name: "session",
-    keys: [config.SESSION_SECRET],
-    maxAge: 24 * 60 * 60 * 1000,
+    secret: config.SESSION_SECRET,
+    maxAge: 24 * 60 * 60 * 1000, // 24 hours
     secure: config.NODE_ENV === "production",
     httpOnly: true,
     sameSite: "lax",
+    signed: true,
   })
 );
 

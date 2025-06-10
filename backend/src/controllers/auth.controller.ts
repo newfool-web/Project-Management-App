@@ -72,6 +72,10 @@ export const loginController = asyncHandler(
 
 export const logOutController = asyncHandler(
   async (req: Request, res: Response) => {
+    // Clear the session data
+    req.session = null;
+
+    // Clear the authentication
     req.logout((err) => {
       if (err) {
         console.error("Logout error:", err);
@@ -81,7 +85,10 @@ export const logOutController = asyncHandler(
       }
     });
 
-    req.session = null;
+    // Clear the session cookie
+    res.clearCookie("session");
+    res.clearCookie("session.sig");
+
     return res
       .status(HTTPSTATUS.OK)
       .json({ message: "Logged out successfully" });
