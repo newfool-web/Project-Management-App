@@ -100,9 +100,11 @@ export const changeWorkspaceMemberRoleMutationFn = async ({
   return response.data;
 };
 
-export const deleteWorkspaceMutationFn = async (
-  workspaceId: string
-): Promise<{
+export const deleteWorkspaceMutationFn = async ({
+  workspaceId,
+}: {
+  workspaceId: string;
+}): Promise<{
   message: string;
   currentWorkspace: string;
 }> => {

@@ -6,9 +6,8 @@ import { DataTableRowActions } from "./table-row-actions";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import {
-  TaskPriorityEnum,
-  TaskPriorityEnumType,
-  TaskStatusEnum,
+  
+  TaskPriorityEnumType,  
   TaskStatusEnumType,
 } from "@/constant";
 import {
@@ -19,6 +18,36 @@ import {
 import { priorities, statuses } from "./data";
 import { TaskType } from "@/types/api.type";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
+const getStatusVariant = (status: TaskStatusEnumType) => {
+  switch (status) {
+    case 'BACKLOG':
+      return 'secondary';
+    case 'TODO':
+      return 'default';
+    case 'IN_PROGRESS':
+      return 'outline';
+    case 'IN_REVIEW':
+      return 'secondary';
+    case 'DONE':
+      return 'default';
+    default:
+      return 'default';
+  }
+};
+
+const getPriorityVariant = (priority: TaskPriorityEnumType) => {
+  switch (priority) {
+    case 'LOW':
+      return 'default';
+    case 'MEDIUM':
+      return 'secondary';
+    case 'HIGH':
+      return 'destructive';
+    default:
+      return 'default';
+  }
+};
 
 export const getColumns = (projectId?: string): ColumnDef<TaskType>[] => {
   const columns: ColumnDef<TaskType>[] = [
@@ -158,7 +187,7 @@ export const getColumns = (projectId?: string): ColumnDef<TaskType>[] => {
         return (
           <div className="flex lg:w-[120px] items-center">
             <Badge
-              variant={TaskStatusEnum[statusKey]}
+              variant={getStatusVariant(statusKey)}
               className="flex w-auto p-1 px-2 gap-1 font-medium shadow-sm uppercase border-0"
             >
               <Icon className="h-4 w-4 rounded-full text-inherit" />
@@ -194,7 +223,7 @@ export const getColumns = (projectId?: string): ColumnDef<TaskType>[] => {
         return (
           <div className="flex items-center">
             <Badge
-              variant={TaskPriorityEnum[statusKey]}
+              variant={getPriorityVariant(statusKey)}
               className="flex lg:w-[110px] p-1 gap-1 !bg-transparent font-medium !shadow-none uppercase border-0"
             >
               <Icon className="h-4 w-4 rounded-full text-inherit" />

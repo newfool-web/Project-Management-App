@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { TaskPriorityEnum, TaskStatusEnum } from "@/constant";
+import { TaskPriorityEnumType, TaskStatusEnumType } from "@/constant";
 import useWorkspaceId from "@/hooks/use-workspace-id";
 import { getAllTasksQueryFn } from "@/lib/api";
 import {
@@ -12,6 +12,36 @@ import { TaskType } from "@/types/api.type";
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { Loader } from "lucide-react";
+
+const getStatusVariant = (status: TaskStatusEnumType) => {
+  switch (status) {
+    case 'BACKLOG':
+      return 'secondary';
+    case 'TODO':
+      return 'default';
+    case 'IN_PROGRESS':
+      return 'outline';
+    case 'IN_REVIEW':
+      return 'secondary';
+    case 'DONE':
+      return 'default';
+    default:
+      return 'default';
+  }
+};
+
+const getPriorityVariant = (priority: TaskPriorityEnumType) => {
+  switch (priority) {
+    case 'LOW':
+      return 'default';
+    case 'MEDIUM':
+      return 'secondary';
+    case 'HIGH':
+      return 'destructive';
+    default:
+      return 'default';
+  }
+};
 
 const RecentTasks = () => {
   const workspaceId = useWorkspaceId();
@@ -75,7 +105,7 @@ const RecentTasks = () => {
               {/* Task Status */}
               <div className="text-sm font-medium ">
                 <Badge
-                  variant={TaskStatusEnum[task.status]}
+                  variant={getStatusVariant(task.status)}
                   className="flex w-auto p-1 px-2 gap-1 font-medium shadow-sm uppercase border-0"
                 >
                   <span>{transformStatusEnum(task.status)}</span>
@@ -85,7 +115,7 @@ const RecentTasks = () => {
               {/* Task Priority */}
               <div className="text-sm ml-2">
                 <Badge
-                  variant={TaskPriorityEnum[task.priority]}
+                  variant={getPriorityVariant(task.priority)}
                   className="flex w-auto p-1 px-2 gap-1 font-medium shadow-sm uppercase border-0"
                 >
                   <span>{transformStatusEnum(task.priority)}</span>
